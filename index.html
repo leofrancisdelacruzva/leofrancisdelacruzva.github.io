@@ -9,50 +9,67 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{--paper:#F4F6F1;--ink:#16221D;--muted:#506059;--teal:#0E6F66;--amber:#F0A83A;--line:#CBD3CC;--card:#FFFFFF}
+:root{--bg:#0A0A0A;--card:#151515;--text:#F2F2F2;--muted:#A6A6A6;--red:#E32626;--red-hi:#FF4040;--line:#2B2B2B}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 Figtree,system-ui,sans-serif}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--text);font:400 17px/1.6 Figtree,system-ui,sans-serif}
 h1,h2,h3{font-family:'Bricolage Grotesque',Figtree,sans-serif;line-height:1.1;margin:0}
-a{color:var(--teal)}
-a:focus-visible,button:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
+a{color:var(--red-hi)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--red-hi);outline-offset:3px}
 .wrap{max-width:1040px;margin:0 auto;padding:0 22px}
 nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0;gap:16px;flex-wrap:wrap}
 nav b{font-family:'Bricolage Grotesque',sans-serif;font-size:1.1rem}
-nav div a{margin-left:18px;color:var(--ink);text-decoration:none;font-weight:600}
-nav div a:hover{color:var(--teal)}
+nav b span{color:var(--red)}
+nav div a{margin-left:18px;color:var(--text);text-decoration:none;font-weight:600}
+nav div a:hover{color:var(--red-hi)}
 .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center;padding:48px 0 72px}
 .hero h1{font-size:clamp(2.4rem,6vw,4.4rem);font-weight:800}
 .hero p{max-width:34em;color:var(--muted);font-size:1.15rem;margin:20px 0 28px}
-.btn{display:inline-block;padding:13px 22px;border-radius:999px;font-weight:600;text-decoration:none;margin:0 10px 10px 0}
-.btn.main{background:var(--teal);color:#fff}
-.btn.alt{border:2px solid var(--ink);color:var(--ink)}
-.btn:hover{background:var(--amber);color:var(--ink);border-color:var(--amber)}
-.intro{background:var(--ink);border-radius:22px;padding:14px;aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff}
-.intro a{color:var(--amber);font-weight:600}
+.btn{position:relative;overflow:hidden;display:inline-block;padding:13px 22px;border-radius:999px;font-weight:600;text-decoration:none;margin:0 10px 10px 0;transition:transform .15s,background .2s}
+.btn.main{background:var(--red);color:#fff}
+.btn.alt{border:2px solid var(--red);color:var(--text)}
+.btn:hover{background:var(--red-hi);color:#fff}
+.btn:active{transform:scale(.93)}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.45);transform:scale(0);animation:rip .6s ease-out forwards;pointer-events:none}
+@keyframes rip{to{transform:scale(4);opacity:0}}
 section{padding:56px 0;border-top:1px solid var(--line)}
 section h2{font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:10px}
-.lead{color:var(--muted);max-width:40em;margin:0 0 30px}
-.videos{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:24px}
-.vid{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.frame{aspect-ratio:16/9;background:#1d2b25;color:#cfd8d2;display:flex;align-items:center;justify-content:center;font-size:.95rem;text-align:center;padding:12px}
+section h2::after{content:"";display:block;width:56px;height:4px;background:var(--red);margin-top:10px}
+.lead{color:var(--muted);max-width:40em;margin:14px 0 30px}
+.videos{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:24px;align-items:start}
+.vid{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:border-color .2s}
+.vid:hover{border-color:var(--red)}
+.frame{position:relative;aspect-ratio:16/9;background:#000;display:flex;align-items:center;justify-content:center;color:var(--muted);text-align:center;padding:12px;overflow:hidden}
 .frame.tall{aspect-ratio:9/16}
-.frame iframe{width:100%;height:100%;border:0}
-.vid div.body{padding:14px 16px 18px}
+.frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;animation:fadein .5s}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+.play{width:68px;height:68px;border-radius:50%;border:0;background:var(--red);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s}
+.play::before{content:"";margin-left:5px;border-style:solid;border-width:11px 0 11px 18px;border-color:transparent transparent transparent #fff}
+.play:hover{transform:scale(1.1);background:var(--red-hi)}
+.play.go{animation:pop .45s ease-out forwards}
+@keyframes pop{0%{transform:scale(1);opacity:1}60%{transform:scale(1.7);opacity:.6}100%{transform:scale(2.4);opacity:0}}
+.vid .body{padding:14px 16px 18px}
 .vid h3{font-size:1.1rem;margin-bottom:4px}
 .vid p{margin:0;color:var(--muted);font-size:.95rem}
 .services{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
-.svc{border-left:4px solid var(--amber);padding:4px 0 4px 16px}
+.svc{border-left:4px solid var(--red);padding:4px 0 4px 16px;cursor:pointer;transition:transform .2s,background .2s}
+.svc:hover{background:#161616}
+.svc:active{transform:scale(.97)}
+.svc.open{background:#1a1111}
 .svc h3{font-size:1.15rem;margin-bottom:6px}
 .svc p{margin:0;color:var(--muted)}
+.svc .more{max-height:0;overflow:hidden;transition:max-height .35s ease;color:var(--text)}
+.svc.open .more{max-height:140px;margin-top:8px}
 .job{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:18px}
 .job h3{font-size:1.2rem}
 .job small{color:var(--muted)}
 .job ul{margin:12px 0 0;padding-left:20px}
 .tools{display:flex;flex-wrap:wrap;gap:10px;padding:0;list-style:none;margin:0}
-.tools li{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 16px;font-weight:600}
-.contact a{display:block;font-weight:600;margin:6px 0}
+.tools li{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 16px;font-weight:600;cursor:pointer;transition:transform .15s,border-color .2s,background .2s}
+.tools li:hover{border-color:var(--red)}
+.tools li:active{transform:scale(.9);background:var(--red)}
+.contact a{display:block;font-weight:600;margin:6px 0;width:fit-content}
 footer{padding:30px 0 50px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--line)}
 @media (max-width:760px){.hero{grid-template-columns:1fr;padding-top:24px}nav div a{margin:0 14px 0 0}}
 </style>
@@ -60,7 +77,7 @@ footer{padding:30px 0 50px;color:var(--muted);font-size:.9rem;border-top:1px sol
 <body>
 <div class="wrap">
 <nav>
-  <b>LF.VirtuaOps360</b>
+  <b>LF.<span>VirtuaOps360</span></b>
   <div><a href="#videos">AI videos</a><a href="#services">Services</a><a href="#experience">Experience</a><a href="#contact">Contact</a></div>
 </nav>
 
@@ -71,31 +88,28 @@ footer{padding:30px 0 50px;color:var(--muted);font-size:.9rem;border-top:1px sol
     <a class="btn main" href="#videos">Watch AI videos</a>
     <a class="btn alt" href="#experience">See VA work</a>
   </div>
-  <div class="intro">
-    <p>2-minute intro<br><a href="https://www.loom.com/share/62654a342910459181990f8b981e4233" target="_blank" rel="noopener">Watch my Loom introduction</a></p>
-  </div>
+  <div class="vid"><div class="frame" id="introFrame"></div></div>
 </header>
 
 <section id="videos">
   <h2>AI video samples</h2>
-  <p class="lead">Edit the list at the bottom of this file to add your own YouTube or Vimeo videos. The full collection is also in my <a href="https://drive.google.com/drive/folders/1ua1N24MgNC7BJ9sqbOKdM5iJWzfcslCU?usp=drive_link" target="_blank" rel="noopener">Drive folder</a>.</p>
+  <p class="lead">Click a video to play it. More samples are in my <a href="https://drive.google.com/drive/folders/1ua1N24MgNC7BJ9sqbOKdM5iJWzfcslCU?usp=drive_link" target="_blank" rel="noopener">Drive folder</a>.</p>
   <div class="videos" id="videoGrid"></div>
 </section>
 
 <section id="services">
   <h2>What I do</h2>
-  <p class="lead">Dependable, organized support so you can focus on running your business.</p>
+  <p class="lead">Dependable, organized support so you can focus on running your business. Click a service for details.</p>
   <div class="services">
-    <div class="svc"><h3>Lead generation</h3><p>Finding and organizing prospects so your outreach has a clean list to work from.</p></div>
-    <div class="svc"><h3>Administrative support</h3><p>Inbox, scheduling, data entry and documents handled on time.</p></div>
-    <div class="svc"><h3>Email marketing</h3><p>Campaigns and automations built in ActiveCampaign.</p></div>
-    <div class="svc"><h3>AI video creation</h3><p>Short vertical videos and ad creatives made with AI tools.</p></div>
+    <div class="svc" tabindex="0" role="button"><h3>Lead generation</h3><p>Finding and organizing prospects so your outreach has a clean list to work from.</p><div class="more">Building prospect lists and keeping contact data organized and ready for outreach.</div></div>
+    <div class="svc" tabindex="0" role="button"><h3>Administrative support</h3><p>Inbox, scheduling, data entry and documents handled on time.</p><div class="more">Day-to-day tasks handled with clear updates, so nothing slips through.</div></div>
+    <div class="svc" tabindex="0" role="button"><h3>Email marketing</h3><p>Campaigns and automations built in ActiveCampaign.</p><div class="more">Setting up campaigns and automations in ActiveCampaign.</div></div>
+    <div class="svc" tabindex="0" role="button"><h3>AI video creation</h3><p>Short vertical videos and ad creatives made with AI tools.</p><div class="more">Short-form videos for social media and ads, made with AI tools such as Google Flow and Veo 3.1.</div></div>
   </div>
 </section>
 
 <section id="experience">
   <h2>Experience</h2>
-  <p class="lead">Add one or two real results to each entry when you have them.</p>
   <div class="job">
     <h3>Virtual Assistant Intern, Good Shepherd Staffing Agency</h3>
     <small>2026</small>
@@ -121,7 +135,7 @@ footer{padding:30px 0 50px;color:var(--muted);font-size:.9rem;border-top:1px sol
 
 <section id="tools">
   <h2>Tools</h2>
-  <ul class="tools">
+  <ul class="tools" style="margin-top:20px">
     <li>ActiveCampaign</li><li>Google Workspace</li><li>Loom</li><li>Google Flow</li><li>Veo 3.1</li>
   </ul>
 </section>
@@ -139,30 +153,62 @@ footer{padding:30px 0 50px;color:var(--muted);font-size:.9rem;border-top:1px sol
 </div>
 
 <script>
-/* EDIT HERE: add your videos.
-   youtube: paste only the video ID (the part after v= in a YouTube link). Leave it empty to show "coming soon".
-   tall: true for vertical 9:16 videos. */
+/* ===== EDIT HERE: ADD YOUR VIDEOS =====
+   link: paste the normal share link. Works with YouTube, Google Drive, Loom and Vimeo.
+         (Google Drive videos must be shared as "Anyone with the link".)
+         Leave link as "" to show "Video coming soon".
+   tall: true for vertical 9:16 videos, false for horizontal 16:9.
+   To add another video, copy one { ... }, line and paste it below the last one. */
 const videos = [
-  { title: "Video title 1", desc: "One line on what you made and the tools you used.", youtube: "", tall: true },
-  { title: "Video title 2", desc: "One line on what you made and the tools you used.", youtube: "", tall: true },
-  { title: "Video title 3", desc: "One line on what you made and the tools you used.", youtube: "", tall: false }
+  { title: "Video title 1", desc: "One line on what you made and the tools you used.", link: "", tall: true },
+  { title: "Video title 2", desc: "One line on what you made and the tools you used.", link: "", tall: true },
+  { title: "Video title 3", desc: "One line on what you made and the tools you used.", link: "", tall: false }
 ];
+const introLink = "https://www.loom.com/share/62654a342910459181990f8b981e4233";
+
+function toEmbed(u){
+  try{
+    const x = new URL(u), h = x.hostname.replace('www.','');
+    if(h==='youtu.be') return 'https://www.youtube.com/embed/'+x.pathname.slice(1);
+    if(h.endsWith('youtube.com')){
+      if(x.pathname.startsWith('/shorts/')) return 'https://www.youtube.com/embed/'+x.pathname.split('/')[2];
+      const v = x.searchParams.get('v'); if(v) return 'https://www.youtube.com/embed/'+v;
+    }
+    if(h==='drive.google.com'){ const m = x.pathname.match(/\/d\/([^/]+)/); if(m) return 'https://drive.google.com/file/d/'+m[1]+'/preview'; }
+    if(h==='loom.com'){ const m = x.pathname.match(/\/share\/([^/?]+)/); if(m) return 'https://www.loom.com/embed/'+m[1]; }
+    if(h==='vimeo.com'){ const id = x.pathname.split('/').filter(Boolean)[0]; if(id) return 'https://player.vimeo.com/video/'+id; }
+  }catch(e){}
+  return '';
+}
+
+function setupPlayer(frame, link, title){
+  const src = link ? toEmbed(link) : '';
+  if(!src){ frame.textContent = 'Video coming soon'; return; }
+  const b = document.createElement('button');
+  b.className = 'play';
+  b.setAttribute('aria-label','Play ' + title);
+  b.addEventListener('click', () => {
+    b.classList.add('go');
+    setTimeout(() => {
+      b.remove();
+      const f = document.createElement('iframe');
+      f.src = src; f.title = title; f.allowFullscreen = true;
+      f.allow = 'autoplay; fullscreen; picture-in-picture';
+      frame.appendChild(f);
+    }, 350);
+  });
+  frame.appendChild(b);
+}
+
+setupPlayer(document.getElementById('introFrame'), introLink, 'Introduction video');
+
 const grid = document.getElementById('videoGrid');
 videos.forEach(v => {
   const card = document.createElement('article');
   card.className = 'vid';
   const frame = document.createElement('div');
   frame.className = 'frame' + (v.tall ? ' tall' : '');
-  if (v.youtube) {
-    const f = document.createElement('iframe');
-    f.src = 'https://www.youtube.com/embed/' + encodeURIComponent(v.youtube);
-    f.title = v.title;
-    f.loading = 'lazy';
-    f.allowFullscreen = true;
-    frame.appendChild(f);
-  } else {
-    frame.textContent = 'Video coming soon';
-  }
+  setupPlayer(frame, v.link, v.title);
   const body = document.createElement('div');
   body.className = 'body';
   body.innerHTML = '<h3></h3><p></p>';
@@ -170,6 +216,25 @@ videos.forEach(v => {
   body.querySelector('p').textContent = v.desc;
   card.append(frame, body);
   grid.appendChild(card);
+});
+
+/* Click ripple on buttons */
+document.querySelectorAll('.btn').forEach(btn => {
+  btn.addEventListener('click', e => {
+    const r = btn.getBoundingClientRect(), s = Math.max(r.width, r.height);
+    const d = document.createElement('span');
+    d.className = 'ripple';
+    d.style.cssText = 'width:'+s+'px;height:'+s+'px;left:'+(e.clientX-r.left-s/2)+'px;top:'+(e.clientY-r.top-s/2)+'px';
+    btn.appendChild(d);
+    setTimeout(() => d.remove(), 600);
+  });
+});
+
+/* Click to expand a service */
+document.querySelectorAll('.svc').forEach(s => {
+  const toggle = () => s.classList.toggle('open');
+  s.addEventListener('click', toggle);
+  s.addEventListener('keydown', e => { if(e.key==='Enter' || e.key===' '){ e.preventDefault(); toggle(); } });
 });
 </script>
 </body>
